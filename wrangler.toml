@@ -6,7 +6,7 @@ pages_build_output_dir = "."
 [[d1_databases]]
 binding = "DB"
 database_name = "trivia-db"
-database_id = "<REPLACE_WITH_YOUR_D1_DATABASE_ID>"
+database_id = "3bfd8cdf-402f-4a80-b774-e08f8fc02396"
 
 # Environment Variables
 [vars]
