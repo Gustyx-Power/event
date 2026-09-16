@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Google One AI Pro 5TB - Web Trivia Marathon</title>
+  <meta name="description" content="Turnamen Trivia Maraton 12 Jam memperebutkan Akun Google One AI Pro 5 TB 1 Tahun Penuh. 5 Sesi kuis berkecepatan tinggi!">
+  <meta name="theme-color" content="#E8EEF5">
+
+  <!-- Favicon / Brand Icon -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="css/clay.css">
+</head>
+<body>
+
+  <!-- Fullscreen Celebration Canvas -->
+  <canvas id="confetti-canvas" style="position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:99;"></canvas>
+
+  <div id="app">
+
+    <!-- Top App Header -->
+    <header class="app-header">
+      <div class="brand-wrapper">
+        <div class="brand-icon">5T</div>
+        <div class="brand-meta">
+          <h1 data-i18n="appName">Google One AI Pro</h1>
+          <span class="brand-badge" data-i18n="marathonBadge">Maraton 12 Jam</span>
+        </div>
+      </div>
+
+      <div class="header-controls">
+        <!-- Sound Effect Toggle -->
+        <button id="btn-sound-toggle" class="clay-icon-btn" title="Toggle Sound" aria-label="Toggle Sound">
+          <span id="sound-icon">🔊</span>
+        </button>
+
+        <!-- Bilingual Switcher -->
+        <div class="clay-toggle" role="group" aria-label="Language selector">
+          <button class="clay-toggle-btn lang-btn active" data-lang="id">ID</button>
+          <button class="clay-toggle-btn lang-btn" data-lang="en">EN</button>
+        </div>
+      </div>
+    </header>
+
+    <!-- =====================================================================
+         VIEW 1: ONBOARDING & REGISTRATION
+         ===================================================================== -->
+    <main id="view-onboarding" class="clay-card">
+      <!-- Prize Banner -->
+      <div class="prize-banner">
+        <div class="prize-content">
+          <span class="prize-pill" data-i18n="prizeTag">Hadiah Utama</span>
+          <h2 class="prize-title" data-i18n="prizeTitle">Akun Google One AI Pro 5 TB</h2>
+          <p class="prize-desc" data-i18n="prizeDesc">Akses 1 tahun penuh: Gemini Advanced, 5.000 GB cloud storage, Google Workspace premium.</p>
+        </div>
+        <div class="prize-3d-graphic">🏆</div>
+      </div>
+
+      <h2 class="title-xl" data-i18n="welcomeTitle">Trivia Marathon Giveaway</h2>
+      <p class="subtitle" data-i18n="welcomeSubtitle">Buktikan ketangkasan dan pengetahuan teknologi kamu dalam 5 sesi kuis bertempo cepat!</p>
+
+      <!-- Registration Form with 3 Verification Fields -->
+      <div class="clay-input-group" style="margin-bottom: 1rem;">
+        <label for="input-telegram-name" class="clay-label">
+          <span data-i18n="telegramNameLabel">Nama Akun Telegram (Display Name)</span>
+        </label>
+        <div class="clay-input-wrapper">
+          <span class="clay-input-icon">👤</span>
+          <input type="text" id="input-telegram-name" class="clay-input" placeholder="Contoh: Budi Santoso" autocomplete="off" spellcheck="false">
+        </div>
+        <p id="msg-telegram-name-error" class="input-error-msg" data-i18n="telegramNameError">Nama Telegram wajib diisi (minimal 2 karakter)!</p>
+      </div>
+
+      <div class="clay-input-group" style="margin-bottom: 1rem;">
+        <label for="input-telegram" class="clay-label">
+          <span data-i18n="telegramLabel">Username Telegram (@)</span>
+          <span style="font-size:0.75rem;color:var(--text-muted);" data-i18n="telegramHint">Wajib diawali '@'</span>
+        </label>
+        <div class="clay-input-wrapper">
+          <span class="clay-input-icon">✈️</span>
+          <input type="text" id="input-telegram" class="clay-input" placeholder="@username_kamu" autocomplete="off" spellcheck="false">
+        </div>
+        <p id="msg-telegram-error" class="input-error-msg" data-i18n="telegramError">Username harus diawali tanda '@' dan minimal 3 karakter!</p>
+      </div>
+
+      <div class="clay-input-group" style="margin-bottom: 1.5rem;">
+        <label for="input-telegram-id" class="clay-label">
+          <span data-i18n="telegramIdLabel">ID Telegram Numerik (User ID)</span>
+          <span style="font-size:0.75rem;color:var(--clay-primary-dark);font-weight:700;" data-i18n="telegramIdHint">Cek di @userinfobot / @myidbot</span>
+        </label>
+        <div class="clay-input-wrapper">
+          <span class="clay-input-icon">🆔</span>
+          <input type="text" id="input-telegram-id" class="clay-input" placeholder="Contoh: 123456789" autocomplete="off" spellcheck="false" inputmode="numeric">
+        </div>
+        <p id="msg-telegram-id-error" class="input-error-msg" data-i18n="telegramIdError">ID Telegram harus berupa angka unik (minimal 5 digit)!</p>
+      </div>
+
+      <!-- Quick Rules Card -->
+      <div class="clay-card-sm" style="margin-bottom: 1.75rem; background: #E8EEF5;">
+        <h4 style="font-size:0.88rem;font-weight:800;margin-bottom:0.5rem;" data-i18n="rulesHeader">Aturan Singkat:</h4>
+        <ul style="padding-left: 1.25rem; font-size: 0.82rem; color: var(--text-muted); line-height: 1.6;">
+          <li data-i18n="rule1">5 Sesi Terpisah @ 30 soal singkat (10 Mudah, 10 Sedang, 10 Sulit).</li>
+          <li data-i18n="rule2">Waktu adaptif: Mudah 15 detik, Sedang 1 menit (60 dtk), Sulit 2 menit (120 dtk). Makin cepat menjawab = bonus poin makin tinggi.</li>
+          <li data-i18n="rule3">Sesi hanya dapat dikerjakan 1 kali (Session Lock).</li>
+          <li data-i18n="rule4">Dilarang berpindah tab browser selama kuis berlangsung (Anti-Cheat aktif).</li>
+        </ul>
+      </div>
+
+      <button id="btn-start-marathon" class="clay-btn clay-btn-primary clay-btn-block">
+        <span data-i18n="btnStartMarathon">Masuk Arena Maraton 🚀</span>
+      </button>
+    </main>
+
+    <!-- =====================================================================
+         VIEW 2: LOBBY & SESSIONS GRID
+         ===================================================================== -->
+    <main id="view-lobby" style="display: none;">
+      <!-- Participant Identity Bar -->
+      <div class="user-profile-bar">
+        <div class="user-identity">
+          <div class="user-avatar">👤</div>
+          <div>
+            <div class="user-text-sub" data-i18n="lobbyGreeting">Selamat Datang,</div>
+            <div id="user-greeting-name" class="user-text-name">Budi Santoso (@username)</div>
+            <div id="user-telegram-id-badge" style="font-size:0.75rem;color:var(--text-muted);font-weight:700;">ID: -</div>
+          </div>
+        </div>
+
+        <div class="user-aggregate-score">
+          <span style="font-size:0.75rem;font-weight:700;color:var(--text-muted);" data-i18n="totalScoreLabel">Total Skor:</span>
+          <span id="user-total-score" class="score-badge-val">0</span>
+          <span style="font-size:0.8rem;">pts</span>
+        </div>
+      </div>
+
+      <!-- Marathon Sessions Section -->
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;">
+        <h2 style="font-size:1.15rem;font-weight:800;" data-i18n="sessionsHeader">Jadwal 5 Sesi Maraton</h2>
+        <span style="font-size:0.75rem;font-weight:700;color:var(--text-muted);">Status Live dari Server 🌐</span>
+      </div>
+
+      <div id="sessions-container" class="sessions-grid">
+        <!-- Rendered dynamically by app.js from /api/sessions -->
+      </div>
+    </main>
+
+    <!-- =====================================================================
+         VIEW 3: IN-GAME QUIZ LOOP (30 Questions, 7s Countdown)
+         ===================================================================== -->
+    <main id="view-game" style="display: none;">
+      <!-- In-Game HUD -->
+      <div class="game-hud">
+        <div class="game-meta-row">
+          <span id="hud-session-name" class="hud-pill hud-pill-highlight">Session 1</span>
+          <div style="display:flex;gap:0.5rem;align-items:center;">
+            <span id="hud-progress" class="hud-pill">Soal 1 dari 30</span>
+            <span id="hud-difficulty" class="difficulty-tag easy">Mudah</span>
+          </div>
+        </div>
+
+        <div class="game-meta-row">
+          <div class="hud-pill">
+            <span data-i18n="scoreHud">Skor</span>: <strong id="hud-score" style="color:var(--clay-primary-dark);margin-left:4px;">0</strong>
+          </div>
+          <div class="hud-pill">
+            <span id="hud-streak">🔥 0</span>
+          </div>
+        </div>
+
+        <!-- Dynamic 7-Second Countdown Bar -->
+        <div class="timer-container" aria-label="Question timer">
+          <div id="timer-bar" class="timer-bar" style="width: 100%;"></div>
+          <div id="timer-text" class="timer-counter-text">7.0s</div>
+        </div>
+      </div>
+
+      <!-- Question Box -->
+      <section class="question-clay-box">
+        <h2 id="question-text" class="question-text">Memuat pertanyaan...</h2>
+      </section>
+
+      <!-- 4 Clay Option Buttons -->
+      <section id="options-container" class="options-grid">
+        <!-- Rendered dynamically by app.js -->
+      </section>
+    </main>
+
+    <!-- =====================================================================
+         VIEW 4: RESULT SUMMARY & D1 EDGE SYNC
+         ===================================================================== -->
+    <main id="view-result" class="clay-card result-card" style="display: none;">
+      <div class="trophy-clay-icon">🏆</div>
+      <h2 id="result-session-title" class="title-xl" data-i18n="resultHeader">Sesi Selesai!</h2>
+      <p class="subtitle" data-i18n="resultSubtitle">Kerja luar biasa! Berikut performa kamu pada sesi ini:</p>
+
+      <div id="result-score" class="score-display-huge">0</div>
+      <div class="score-label-sub" data-i18n="finalScoreLabel">Total Skor Sesi</div>
+
+      <!-- Stats Grid -->
+      <div class="stats-summary-grid">
+        <div class="stat-item">
+          <div id="result-correct" class="stat-item-val">0 / 30</div>
+          <div class="stat-item-lbl" data-i18n="statCorrect">Jawaban Benar</div>
+        </div>
+        <div class="stat-item">
+          <div id="result-accuracy" class="stat-item-val">0%</div>
+          <div class="stat-item-lbl" data-i18n="statAccuracy">Akurasi</div>
+        </div>
+        <div class="stat-item">
+          <div id="result-time" class="stat-item-val">0s</div>
+          <div class="stat-item-lbl" data-i18n="statTime">Total Waktu</div>
+        </div>
+      </div>
+
+      <!-- Sync Status Box -->
+      <div>
+        <div id="sync-status-box" class="sync-status-box sync-pending">
+          <span id="sync-status-text" data-i18n="syncingStatus">Menyimpan skor ke database Cloudflare D1...</span>
+        </div>
+      </div>
+
+      <button id="btn-back-lobby" class="clay-btn clay-btn-primary clay-btn-block">
+        <span data-i18n="btnBackToLobby">Kembali ke Beranda</span> 🏠
+      </button>
+    </main>
+
+  </div>
+
+  <!-- =======================================================================
+       ANTI-CHEAT WARNING MODAL
+       ======================================================================= -->
+  <div id="anti-cheat-modal" class="modal-backdrop">
+    <div class="clay-modal">
+      <div class="modal-icon-badge">⚠️</div>
+      <h3 class="title-xl" style="font-size:1.35rem;margin-bottom:0.5rem;" data-i18n="antiCheatTitle">Peringatan Anti-Cheat!</h3>
+      <p class="subtitle" style="margin-bottom:1.75rem;" data-i18n="antiCheatMsg">
+        Kamu terdeteksi berpindah tab atau meninggalkan jendela browser. Tetaplah fokus pada kuis untuk menghindari diskualifikasi soal!
+      </p>
+      <button id="btn-resume-quiz" class="clay-btn clay-btn-coral clay-btn-block">
+        <span data-i18n="antiCheatActionBtn">Kembali ke Kuis</span> ⏱️
+      </button>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/config.js"></script>
+  <script src="js/i18n.js"></script>
+  <script src="js/questions.js"></script>
+  <script src="js/audio.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

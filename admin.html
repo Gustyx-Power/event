@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard - Google One AI Pro Trivia Marathon</title>
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#E8EEF5">
+
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🛡️</text></svg>">
+  <link rel="stylesheet" href="css/clay.css">
+  
+  <style>
+    /* Admin specific clay styling */
+    .admin-container {
+      width: 100%;
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 1.5rem 1.25rem;
+    }
+
+    .admin-stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1.25rem;
+      margin-bottom: 2rem;
+    }
+
+    .admin-stat-card {
+      background: var(--clay-card);
+      border-radius: var(--radius-md);
+      border: 1px solid var(--clay-border);
+      box-shadow: var(--clay-shadow-out-sm), var(--clay-shadow-in-sm);
+      padding: 1.25rem;
+      text-align: center;
+    }
+
+    .admin-stat-val {
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--clay-primary-dark);
+      line-height: 1.1;
+    }
+
+    .admin-stat-lbl {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-top: 0.35rem;
+    }
+
+    /* Switchboard Grid */
+    .switchboard-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.25rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .switch-card {
+      background: var(--clay-card);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--clay-border);
+      box-shadow: var(--clay-shadow-out), var(--clay-shadow-in);
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 1rem;
+      position: relative;
+    }
+
+    .switch-card.active-open {
+      border: 2px solid #48BB78;
+      box-shadow: 0 0 15px rgba(72, 187, 120, 0.25), var(--clay-shadow-out), var(--clay-shadow-in);
+    }
+
+    /* Leaderboard Table */
+    .leaderboard-clay-card {
+      background: var(--clay-card);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--clay-border);
+      box-shadow: var(--clay-shadow-out), var(--clay-shadow-in);
+      padding: 1.75rem;
+      overflow-x: auto;
+    }
+
+    .table-toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .admin-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0 0.6rem;
+      text-align: left;
+    }
+
+    .admin-table th {
+      font-size: 0.75rem;
+      font-weight: 800;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      padding: 0.5rem 1rem;
+      letter-spacing: 0.05em;
+    }
+
+    .admin-table tbody tr {
+      background: #E8EEF5;
+      border-radius: var(--radius-sm);
+      box-shadow: inset 1.5px 1.5px 3px #cbd5e0, inset -1.5px -1.5px 3px #ffffff;
+      transition: var(--transition-smooth);
+    }
+
+    .admin-table tbody tr:hover {
+      background: #E2E8F0;
+    }
+
+    .admin-table td {
+      padding: 0.9rem 1rem;
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .admin-table td:first-child {
+      border-top-left-radius: var(--radius-sm);
+      border-bottom-left-radius: var(--radius-sm);
+    }
+
+    .admin-table td:last-child {
+      border-top-right-radius: var(--radius-sm);
+      border-bottom-right-radius: var(--radius-sm);
+    }
+
+    .rank-pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      font-size: 0.82rem;
+      font-weight: 800;
+      background: #DCE5EE;
+    }
+
+    .rank-1 { background: linear-gradient(135deg, #FFD700, #FFA500); color: #fff; box-shadow: 2px 2px 6px rgba(255, 165, 0, 0.4); }
+    .rank-2 { background: linear-gradient(135deg, #E0E0E0, #BDBDBD); color: #fff; box-shadow: 2px 2px 6px rgba(189, 189, 189, 0.4); }
+    .rank-3 { background: linear-gradient(135deg, #CD7F32, #A0522D); color: #fff; box-shadow: 2px 2px 6px rgba(160, 82, 45, 0.4); }
+
+    .valid-tag {
+      background: #DEF7EC;
+      color: #03543F;
+      padding: 0.2rem 0.55rem;
+      border-radius: var(--radius-pill);
+      font-size: 0.72rem;
+      font-weight: 800;
+    }
+
+    .pending-tag {
+      background: #FEF08A;
+      color: #713F12;
+      padding: 0.2rem 0.55rem;
+      border-radius: var(--radius-pill);
+      font-size: 0.72rem;
+      font-weight: 800;
+    }
+
+    /* Auth Overlay */
+    #auth-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(232, 238, 245, 0.95);
+      backdrop-filter: blur(10px);
+      z-index: 999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+
+    .auth-box {
+      background: var(--clay-card);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--clay-border);
+      box-shadow: var(--clay-shadow-out-lg), var(--clay-shadow-in);
+      padding: 2.5rem 2rem;
+      max-width: 380px;
+      width: 100%;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- =======================================================================
+       PIN AUTHENTICATION OVERLAY
+       ======================================================================= -->
+  <div id="auth-overlay">
+    <div class="auth-box">
+      <div style="font-size:3rem;margin-bottom:1rem;">🛡️</div>
+      <h2 class="title-xl" style="font-size:1.5rem;margin-bottom:0.5rem;">Admin Access</h2>
+      <p class="subtitle" style="margin-bottom:1.5rem;">Masukkan Admin Security Key untuk mengelola turnamen.</p>
+
+      <div class="clay-input-group" style="margin-bottom:1.25rem;">
+        <input type="password" id="admin-pin-input" class="clay-input" placeholder="Admin Key" style="text-align:center;letter-spacing:0.2em;font-size:1.2rem;">
+      </div>
+      <p id="auth-error-msg" class="input-error-msg" style="margin-bottom:1rem;">Security Key salah!</p>
+
+      <button id="btn-login-admin" class="clay-btn clay-btn-primary clay-btn-block">
+        Buka Dashboard 🔓
+      </button>
+      <div style="margin-top:1.25rem;">
+        <a href="/" style="font-size:0.8rem;color:var(--text-muted);text-decoration:none;">← Kembali ke Beranda Peserta</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- =======================================================================
+       ADMIN DASHBOARD CONTENT
+       ======================================================================= -->
+  <div class="admin-container">
+
+    <!-- Header -->
+    <header class="app-header">
+      <div class="brand-wrapper">
+        <div class="brand-icon" style="background:linear-gradient(135deg, #FF6B6B, #845EC2);">ADM</div>
+        <div class="brand-meta">
+          <h1>Tournament Command Center</h1>
+          <span class="brand-badge" style="background:#845EC2;">Cloudflare D1 Edge</span>
+        </div>
+      </div>
+
+      <div class="header-controls">
+        <a href="/" class="clay-btn clay-btn-neutral" style="padding:0.45rem 1rem;font-size:0.8rem;text-decoration:none;">
+          👁️ Lihat Peserta
+        </a>
+        <button id="btn-logout" class="clay-icon-btn" title="Keluar">
+          🚪
+        </button>
+      </div>
+    </header>
+
+    <!-- Quick Stats -->
+    <div class="admin-stats-grid">
+      <div class="admin-stat-card">
+        <div id="stat-total-users" class="admin-stat-val">0</div>
+        <div class="admin-stat-lbl">Total Peserta</div>
+      </div>
+      <div class="admin-stat-card">
+        <div id="stat-completed-5" class="admin-stat-val">0</div>
+        <div class="admin-stat-lbl">Menyelesaikan 5 Sesi</div>
+      </div>
+      <div class="admin-stat-card">
+        <div id="stat-active-sessions" class="admin-stat-val">0 / 5</div>
+        <div class="admin-stat-lbl">Sesi Sedang Dibuka</div>
+      </div>
+    </div>
+
+    <!-- Section 1: Remote Session Switchboard -->
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;">
+      <h2 style="font-size:1.2rem;font-weight:800;">🎛️ Remote Session Switchboard (Buka / Kunci Sesi)</h2>
+      <span style="font-size:0.75rem;color:var(--text-muted);">Perubahan langsung aktif untuk semua peserta</span>
+    </div>
+
+    <div id="switchboard-container" class="switchboard-grid">
+      <!-- Rendered dynamically by js/admin.js -->
+    </div>
+
+    <!-- Section 2: Live Leaderboard Monitor -->
+    <div class="leaderboard-clay-card">
+      <div class="table-toolbar">
+        <div>
+          <h2 style="font-size:1.2rem;font-weight:800;margin-bottom:0.25rem;">🏆 Live Leaderboard (Klasemen Akumulasi)</h2>
+          <span id="last-updated-text" style="font-size:0.75rem;color:var(--text-muted);">Memuat data...</span>
+        </div>
+
+        <div style="display:flex;gap:0.6rem;align-items:center;">
+          <button id="btn-refresh-leaderboard" class="clay-btn clay-btn-neutral" style="padding:0.5rem 1rem;font-size:0.8rem;">
+            🔄 Refresh
+          </button>
+          <button id="btn-export-csv" class="clay-btn clay-btn-primary" style="padding:0.5rem 1rem;font-size:0.8rem;">
+            📥 Export CSV
+          </button>
+        </div>
+      </div>
+
+      <!-- Search Filter -->
+      <div style="margin-bottom:1.25rem;">
+        <input type="text" id="leaderboard-search" class="clay-input" placeholder="🔍 Cari Telegram Username..." style="padding:0.65rem 1rem;font-size:0.9rem;">
+      </div>
+
+      <!-- Standings Table -->
+      <div style="overflow-x:auto;">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th style="width:50px;">Rank</th>
+              <th>Nama & Username Telegram</th>
+              <th>Telegram ID</th>
+              <th>Total Skor</th>
+              <th>Total Durasi</th>
+              <th>Progres Sesi</th>
+              <th>Status Sah</th>
+              <th style="text-align:right;">Aksi</th>
+            </tr>
+          </thead>
+          <tbody id="leaderboard-table-body">
+            <!-- Rendered by admin.js -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/config.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>
