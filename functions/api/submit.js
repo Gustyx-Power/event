@@ -71,6 +71,15 @@ export async function onRequestPost({ request, env }) {
 
     // 3. Attempt Insert into D1 (Protected by UNIQUE(telegram_id, session_number))
     try {
+      // Upsert into participants
+      await env.DB.prepare(`
+        INSERT INTO participants (telegram_id, telegram_name, username)
+        VALUES (?, ?, ?)
+        ON CONFLICT(telegram_id) DO UPDATE SET
+          telegram_name = excluded.telegram_name,
+          username = excluded.username;
+      `).bind(telegramId, telegramName, username).run().catch(() => {});
+
       await env.DB.prepare(`
         INSERT INTO submissions (telegram_name, username, telegram_id, session_number, score, correct_answers, total_duration, user_agent)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?)

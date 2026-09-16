@@ -26,6 +26,7 @@ const CONFIG = {
   
   // Edge API Endpoints (Relative for Cloudflare Pages same-origin)
   API_ENDPOINTS: {
+    REGISTER: "/api/register",
     SESSIONS: "/api/sessions",
     SUBMIT: "/api/submit",
     LEADERBOARD: "/api/leaderboard"

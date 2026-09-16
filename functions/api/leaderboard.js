@@ -29,19 +29,35 @@ export async function onRequestGet({ request, env }) {
     const url = new URL(request.url);
     const withDetails = url.searchParams.get("details") === "true";
 
-    // Aggregated Leaderboard Query grouped by immutable telegram_id
+    // Ensure participants table exists
+    await env.DB.prepare(`
+      CREATE TABLE IF NOT EXISTS participants (
+        telegram_id TEXT PRIMARY KEY,
+        telegram_name TEXT NOT NULL,
+        username TEXT NOT NULL,
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+      )
+    `).run();
+
+    // Aggregated Leaderboard Query: Includes all registered participants & historical submissions
     const { results } = await env.DB.prepare(`
+      WITH all_participants AS (
+        SELECT telegram_id, telegram_name, username, created_at FROM participants
+        UNION
+        SELECT telegram_id, telegram_name, username, created_at FROM submissions
+      )
       SELECT 
-        telegram_id,
-        MAX(telegram_name) as telegram_name,
-        MAX(username) as username,
-        SUM(score) as total_score,
-        COUNT(DISTINCT session_number) as sessions_completed,
-        SUM(total_duration) as total_duration,
-        MAX(created_at) as last_submitted
-      FROM submissions
-      GROUP BY telegram_id
-      ORDER BY total_score DESC, total_duration ASC;
+        p.telegram_id,
+        MAX(p.telegram_name) as telegram_name,
+        MAX(p.username) as username,
+        COALESCE(SUM(s.score), 0) as total_score,
+        COUNT(DISTINCT s.session_number) as sessions_completed,
+        COALESCE(SUM(s.total_duration), 0) as total_duration,
+        MAX(s.created_at) as last_submitted
+      FROM all_participants p
+      LEFT JOIN submissions s ON p.telegram_id = s.telegram_id
+      GROUP BY p.telegram_id
+      ORDER BY total_score DESC, total_duration ASC, p.created_at ASC;
     `).all();
 
     const totalParticipants = results ? results.length : 0;
@@ -92,17 +108,20 @@ export async function onRequestDelete({ request, env }) {
 
     if (purgeAll) {
       await env.DB.prepare("DELETE FROM submissions").run();
-      await env.DB.prepare("INSERT INTO admin_audit_logs (action, details) VALUES (?, ?)").bind("PURGE_ALL", "Purged all submissions").run();
-      return jsonResponse({ status: "success", message: "Seluruh data submission berhasil direset" });
+      await env.DB.prepare("DELETE FROM participants").run();
+      await env.DB.prepare("INSERT INTO admin_audit_logs (action, details) VALUES (?, ?)").bind("PURGE_ALL", "Purged all submissions and participants").run();
+      return jsonResponse({ status: "success", message: "Seluruh data peserta dan submission berhasil direset" });
     }
 
     if (targetId) {
       await env.DB.prepare("DELETE FROM submissions WHERE telegram_id = ?").bind(targetId).run();
+      await env.DB.prepare("DELETE FROM participants WHERE telegram_id = ?").bind(targetId).run();
       return jsonResponse({ status: "success", message: `Data untuk ID Telegram ${targetId} berhasil dihapus` });
     }
 
     if (targetUser) {
       await env.DB.prepare("DELETE FROM submissions WHERE username = ?").bind(targetUser).run();
+      await env.DB.prepare("DELETE FROM participants WHERE username = ?").bind(targetUser).run();
       return jsonResponse({ status: "success", message: `Data untuk user ${targetUser} berhasil dihapus` });
     }
 

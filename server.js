@@ -28,6 +28,7 @@ function loadLocalDB() {
       { session_number: 4, title: 'Sesi 4: Internet, Web & Cybersecurity', is_active: 0 },
       { session_number: 5, title: 'Sesi 5: Grand Finale & Future Tech', is_active: 0 }
     ],
+    participants: [],
     submissions: [],
     logs: []
   };
@@ -38,6 +39,9 @@ function saveLocalDB(data) {
 }
 
 let localDb = loadLocalDB();
+if (!Array.isArray(localDb.participants)) {
+  localDb.participants = [];
+}
 
 const server = http.createServer((req, res) => {
   const parsedUrl = new URL(req.url, `http://${req.headers.host}`);
@@ -60,6 +64,51 @@ const server = http.createServer((req, res) => {
   // =========================================================================
   // API ROUTING: SIMULATING CLOUDFLARE PAGES FUNCTIONS & D1
   // =========================================================================
+  if (pathname === '/api/register' && req.method === 'POST') {
+    let body = '';
+    req.on('data', chunk => { body += chunk; });
+    req.on('end', () => {
+      try {
+        const payload = JSON.parse(body);
+        const telegramName = (payload.telegram_name || '').toString().trim();
+        const username = (payload.username || '').toString().trim();
+        const telegramId = (payload.telegram_id || '').toString().trim();
+
+        if (!telegramName || telegramName.length < 2) {
+          return sendJson({ status: 'error', message: 'Nama akun Telegram minimal 2 karakter' }, 400);
+        }
+        if (!username.startsWith('@') || username.length < 3) {
+          return sendJson({ status: 'error', message: 'Username Telegram harus diawali @' }, 400);
+        }
+        if (!telegramId || !/^\d{5,15}$/.test(telegramId)) {
+          return sendJson({ status: 'error', message: 'ID Telegram harus berupa angka (5 - 15 digit)' }, 400);
+        }
+
+        const existingIdx = localDb.participants.findIndex(p => p.telegram_id === telegramId);
+        if (existingIdx >= 0) {
+          localDb.participants[existingIdx].telegram_name = telegramName;
+          localDb.participants[existingIdx].username = username;
+        } else {
+          localDb.participants.push({
+            telegram_id: telegramId,
+            telegram_name: telegramName,
+            username: username,
+            created_at: new Date().toISOString()
+          });
+        }
+
+        saveLocalDB(localDb);
+        return sendJson({
+          status: 'success',
+          message: 'Peserta berhasil terdaftar di turnamen',
+          participant: { telegram_id: telegramId, telegram_name: telegramName, username }
+        });
+      } catch (e) {
+        return sendJson({ status: 'error', message: e.message }, 400);
+      }
+    });
+    return;
+  }
   if (pathname === '/api/sessions') {
     if (req.method === 'GET') {
       return sendJson({ status: 'success', sessions: localDb.sessions });
@@ -145,6 +194,20 @@ const server = http.createServer((req, res) => {
           created_at: new Date().toISOString()
         });
 
+        // Ensure in participants
+        const pIdx = localDb.participants.findIndex(p => p.telegram_id === telegramId);
+        if (pIdx >= 0) {
+          localDb.participants[pIdx].telegram_name = telegramName;
+          localDb.participants[pIdx].username = username;
+        } else {
+          localDb.participants.push({
+            telegram_id: telegramId,
+            telegram_name: telegramName,
+            username: username,
+            created_at: new Date().toISOString()
+          });
+        }
+
         saveLocalDB(localDb);
         return sendJson({ status: 'success', message: 'Skor resmi berhasil dicatat!' });
       } catch (e) {
@@ -158,8 +221,23 @@ const server = http.createServer((req, res) => {
     if (req.method === 'GET') {
       const withDetails = parsedUrl.searchParams.get('details') === 'true';
 
-      // SQL aggregation grouped by telegram_id
+      // SQL aggregation: start with all registered participants
       const userMap = {};
+
+      (localDb.participants || []).forEach(p => {
+        const idKey = p.telegram_id || p.username;
+        userMap[idKey] = {
+          telegram_id: p.telegram_id,
+          telegram_name: p.telegram_name || p.username,
+          username: p.username,
+          total_score: 0,
+          sessions_completed: 0,
+          total_duration: 0,
+          last_submitted: p.created_at,
+          sessions_set: new Set()
+        };
+      });
+
       localDb.submissions.forEach(sub => {
         const idKey = sub.telegram_id || sub.username;
         if (!userMap[idKey]) {
@@ -214,8 +292,9 @@ const server = http.createServer((req, res) => {
       const purgeAll = parsedUrl.searchParams.get('purge_all') === 'true';
       if (purgeAll) {
         localDb.submissions = [];
+        localDb.participants = [];
         saveLocalDB(localDb);
-        return sendJson({ status: 'success', message: 'Semua submission dibersihkan' });
+        return sendJson({ status: 'success', message: 'Semua peserta dan submission dibersihkan' });
       }
 
       const targetId = parsedUrl.searchParams.get('telegram_id');
@@ -223,12 +302,14 @@ const server = http.createServer((req, res) => {
 
       if (targetId) {
         localDb.submissions = localDb.submissions.filter(s => s.telegram_id !== targetId);
+        localDb.participants = localDb.participants.filter(p => p.telegram_id !== targetId);
         saveLocalDB(localDb);
         return sendJson({ status: 'success', message: `Data ID Telegram ${targetId} berhasil dihapus` });
       }
 
       if (targetUser) {
         localDb.submissions = localDb.submissions.filter(s => s.username.toLowerCase() !== targetUser.toLowerCase());
+        localDb.participants = localDb.participants.filter(p => p.username.toLowerCase() !== targetUser.toLowerCase());
         saveLocalDB(localDb);
         return sendJson({ status: 'success', message: `Data untuk ${targetUser} berhasil dihapus` });
       }

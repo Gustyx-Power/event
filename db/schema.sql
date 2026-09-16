@@ -19,7 +19,16 @@ INSERT OR IGNORE INTO sessions_config (session_number, title, is_active) VALUES
   (4, 'Sesi 4: Internet, Web & Cybersecurity', 0),
   (5, 'Sesi 5: Grand Finale & Future Tech', 0);
 
--- 2. Official Participant Submissions Table
+-- 2. Registered Participants Table (Instant registration upon entering marathon arena)
+CREATE TABLE IF NOT EXISTS participants (
+  telegram_id TEXT PRIMARY KEY,
+  telegram_name TEXT NOT NULL,
+  username TEXT NOT NULL,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+CREATE INDEX IF NOT EXISTS idx_participants_username ON participants(username);
+
+-- 3. Official Participant Submissions Table
 -- Now includes full verification: telegram_name, username (@), and immutable telegram_id
 CREATE TABLE IF NOT EXISTS submissions (
   id INTEGER PRIMARY KEY AUTOINCREMENT,

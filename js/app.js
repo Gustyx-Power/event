@@ -49,6 +49,7 @@ class TriviaApp {
       this.switchView("onboarding");
     } else {
       this.switchView("lobby");
+      this.syncRegistrationToBackend();
       this.refreshServerSessionsAndLobby();
       this.startSessionPolling();
     }
@@ -355,9 +356,32 @@ class TriviaApp {
     localStorage.setItem(CONFIG.STORAGE_KEYS.TELEGRAM_ID, telegramId);
     Sound.playCorrect();
 
+    this.syncRegistrationToBackend();
     this.switchView("lobby");
     this.refreshServerSessionsAndLobby();
     this.startSessionPolling();
+  }
+
+  async syncRegistrationToBackend() {
+    const telegramName = localStorage.getItem(CONFIG.STORAGE_KEYS.TELEGRAM_NAME) || "";
+    const username = localStorage.getItem(CONFIG.STORAGE_KEYS.USER_TELEGRAM) || "";
+    const telegramId = localStorage.getItem(CONFIG.STORAGE_KEYS.TELEGRAM_ID) || "";
+
+    if (!username || !telegramId) return;
+
+    try {
+      await fetch(CONFIG.API_ENDPOINTS.REGISTER, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          telegram_name: telegramName || username,
+          username: username,
+          telegram_id: telegramId
+        })
+      });
+    } catch (err) {
+      console.warn("Background registration sync failed:", err);
+    }
   }
 
   // =========================================================================
