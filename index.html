@@ -7,8 +7,8 @@
   <meta name="description" content="Turnamen Trivia Maraton 12 Jam memperebutkan Akun Google One AI Pro 5 TB 1 Tahun Penuh. 5 Sesi kuis berkecepatan tinggi!">
   <meta name="theme-color" content="#E8EEF5">
 
-  <!-- Favicon / Brand Icon -->
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
+  <!-- Crisp Vector SVG Favicon -->
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath fill='%233B82F6' d='M16 2L20 12L30 16L20 20L16 30L12 20L2 16L12 12Z'/%3E%3C/svg%3E">
 
   <!-- Stylesheet -->
   <link rel="stylesheet" href="css/clay.css">
@@ -23,7 +23,11 @@
     <!-- Top App Header -->
     <header class="app-header">
       <div class="brand-wrapper">
-        <div class="brand-icon">5T</div>
+        <div class="brand-logo-gemini">
+          <svg class="ui-icon" viewBox="0 0 24 24">
+            <path d="M12 2L14.5 9.5L22 12L14.5 14.5L12 22L9.5 14.5L2 12L9.5 9.5Z" fill="currentColor" stroke="none"/>
+          </svg>
+        </div>
         <div class="brand-meta">
           <h1 data-i18n="appName">Google One AI Pro</h1>
           <span class="brand-badge" data-i18n="marathonBadge">Maraton 12 Jam</span>
@@ -33,7 +37,12 @@
       <div class="header-controls">
         <!-- Sound Effect Toggle -->
         <button id="btn-sound-toggle" class="clay-icon-btn" title="Toggle Sound" aria-label="Toggle Sound">
-          <span id="sound-icon">🔊</span>
+          <span id="sound-icon" style="display:inline-flex;align-items:center;justify-content:center;">
+            <svg class="ui-icon" viewBox="0 0 24 24">
+              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+              <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/>
+            </svg>
+          </span>
         </button>
 
         <!-- Bilingual Switcher -->
@@ -51,35 +60,60 @@
       <!-- Prize Banner -->
       <div class="prize-banner">
         <div class="prize-content">
-          <span class="prize-pill" data-i18n="prizeTag">Hadiah Utama</span>
+          <span class="prize-pill">
+            <svg class="ui-icon ui-icon-sm" viewBox="0 0 24 24" style="stroke-width:2.5;">
+              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+            </svg>
+            <span data-i18n="prizeTag">Hadiah Utama</span>
+          </span>
           <h2 class="prize-title" data-i18n="prizeTitle">Akun Google One AI Pro 5 TB</h2>
           <p class="prize-desc" data-i18n="prizeDesc">Akses 1 tahun penuh: Gemini Advanced, 5.000 GB cloud storage, Google Workspace premium.</p>
         </div>
-        <div class="prize-3d-graphic">🏆</div>
+        <div class="prize-emblem">
+          <div class="prize-ring-glow">
+            <svg class="ui-icon-lg" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2">
+              <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/>
+              <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/>
+              <path d="M4 22h16"/>
+              <path d="M10 14.66V17c0 .55-.45 1-1 1H8c-.55 0-1 .45-1 1v1c0 .55.45 1 1 1h8c.55 0 1-.45 1-1v-1c0-.55-.45-1-1-1h-1c-.55 0-1-.45-1-1v-2.34"/>
+              <path d="M6 4h12v5a6 6 0 0 1-12 0V4z"/>
+            </svg>
+          </div>
+        </div>
       </div>
 
       <h2 class="title-xl" data-i18n="welcomeTitle">Trivia Marathon Giveaway</h2>
       <p class="subtitle" data-i18n="welcomeSubtitle">Buktikan ketangkasan dan pengetahuan teknologi kamu dalam 5 sesi kuis bertempo cepat!</p>
 
       <!-- Registration Form with 3 Verification Fields -->
-      <div class="clay-input-group" style="margin-bottom: 1rem;">
+      <div class="clay-input-group" style="margin-bottom: 1.15rem; margin-top: 1.5rem;">
         <label for="input-telegram-name" class="clay-label">
           <span data-i18n="telegramNameLabel">Nama Akun Telegram (Display Name)</span>
         </label>
         <div class="clay-input-wrapper">
-          <span class="clay-input-icon">👤</span>
+          <span class="clay-input-icon">
+            <svg class="ui-icon" viewBox="0 0 24 24">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+              <circle cx="12" cy="7" r="4"/>
+            </svg>
+          </span>
           <input type="text" id="input-telegram-name" class="clay-input" placeholder="Contoh: Budi Santoso" autocomplete="off" spellcheck="false">
         </div>
         <p id="msg-telegram-name-error" class="input-error-msg" data-i18n="telegramNameError">Nama Telegram wajib diisi (minimal 2 karakter)!</p>
       </div>
 
-      <div class="clay-input-group" style="margin-bottom: 1rem;">
+      <div class="clay-input-group" style="margin-bottom: 1.15rem;">
         <label for="input-telegram" class="clay-label">
           <span data-i18n="telegramLabel">Username Telegram (@)</span>
           <span style="font-size:0.75rem;color:var(--text-muted);" data-i18n="telegramHint">Wajib diawali '@'</span>
         </label>
         <div class="clay-input-wrapper">
-          <span class="clay-input-icon">✈️</span>
+          <span class="clay-input-icon">
+            <svg class="ui-icon" viewBox="0 0 24 24">
+              <line x1="22" y1="2" x2="11" y2="13"/>
+              <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+            </svg>
+          </span>
           <input type="text" id="input-telegram" class="clay-input" placeholder="@username_kamu" autocomplete="off" spellcheck="false">
         </div>
         <p id="msg-telegram-error" class="input-error-msg" data-i18n="telegramError">Username harus diawali tanda '@' dan minimal 3 karakter!</p>
@@ -88,10 +122,18 @@
       <div class="clay-input-group" style="margin-bottom: 1.5rem;">
         <label for="input-telegram-id" class="clay-label">
           <span data-i18n="telegramIdLabel">ID Telegram Numerik (User ID)</span>
-          <span style="font-size:0.75rem;color:var(--clay-primary-dark);font-weight:700;" data-i18n="telegramIdHint">Cek di @userinfobot / @myidbot</span>
+          <span style="font-size:0.75rem;color:var(--primary-dark);font-weight:700;" data-i18n="telegramIdHint">Cek di @userinfobot / @myidbot</span>
         </label>
         <div class="clay-input-wrapper">
-          <span class="clay-input-icon">🆔</span>
+          <span class="clay-input-icon">
+            <svg class="ui-icon" viewBox="0 0 24 24">
+              <rect x="3" y="4" width="18" height="16" rx="3"/>
+              <circle cx="9" cy="10" r="2"/>
+              <line x1="15" y1="8" x2="17" y2="8"/>
+              <line x1="15" y1="12" x2="17" y2="12"/>
+              <line x1="7" y1="16" x2="17" y2="16"/>
+            </svg>
+          </span>
           <input type="text" id="input-telegram-id" class="clay-input" placeholder="Contoh: 123456789" autocomplete="off" spellcheck="false" inputmode="numeric">
         </div>
         <p id="msg-telegram-id-error" class="input-error-msg" data-i18n="telegramIdError">ID Telegram harus berupa angka unik (minimal 5 digit)!</p>
@@ -99,7 +141,14 @@
 
       <!-- Quick Rules Card -->
       <div class="clay-card-sm" style="margin-bottom: 1.75rem; background: #E8EEF5;">
-        <h4 style="font-size:0.88rem;font-weight:800;margin-bottom:0.5rem;" data-i18n="rulesHeader">Aturan Singkat:</h4>
+        <h4 style="font-size:0.88rem;font-weight:800;margin-bottom:0.5rem;display:flex;align-items:center;gap:0.45rem;">
+          <svg class="ui-icon ui-icon-sm" viewBox="0 0 24 24" style="color:var(--primary);">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="12" y1="16" x2="12" y2="12"/>
+            <line x1="12" y1="8" x2="12.01" y2="8"/>
+          </svg>
+          <span data-i18n="rulesHeader">Aturan Singkat:</span>
+        </h4>
         <ul style="padding-left: 1.25rem; font-size: 0.82rem; color: var(--text-muted); line-height: 1.6;">
           <li data-i18n="rule1">5 Sesi Terpisah @ 30 soal singkat (10 Mudah, 10 Sedang, 10 Sulit).</li>
           <li data-i18n="rule2">Waktu adaptif: Mudah 15 detik, Sedang 1 menit (60 dtk), Sulit 2 menit (120 dtk). Makin cepat menjawab = bonus poin makin tinggi.</li>
@@ -109,7 +158,11 @@
       </div>
 
       <button id="btn-start-marathon" class="clay-btn clay-btn-primary clay-btn-block">
-        <span data-i18n="btnStartMarathon">Masuk Arena Maraton 🚀</span>
+        <span data-i18n="btnStartMarathon">Masuk Arena Maraton</span>
+        <svg class="ui-icon" viewBox="0 0 24 24">
+          <line x1="5" y1="12" x2="19" y2="12"/>
+          <polyline points="12 5 19 12 12 19"/>
+        </svg>
       </button>
     </main>
 
@@ -120,7 +173,12 @@
       <!-- Participant Identity Bar -->
       <div class="user-profile-bar">
         <div class="user-identity">
-          <div class="user-avatar">👤</div>
+          <div class="user-avatar">
+            <svg class="ui-icon" viewBox="0 0 24 24" stroke="#FFFFFF" fill="none">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+              <circle cx="12" cy="7" r="4"/>
+            </svg>
+          </div>
           <div>
             <div class="user-text-sub" data-i18n="lobbyGreeting">Selamat Datang,</div>
             <div id="user-greeting-name" class="user-text-name">Budi Santoso (@username)</div>
@@ -131,14 +189,16 @@
         <div class="user-aggregate-score">
           <span style="font-size:0.75rem;font-weight:700;color:var(--text-muted);" data-i18n="totalScoreLabel">Total Skor:</span>
           <span id="user-total-score" class="score-badge-val">0</span>
-          <span style="font-size:0.8rem;">pts</span>
+          <span style="font-size:0.8rem;font-weight:700;color:var(--text-muted);">pts</span>
         </div>
       </div>
 
       <!-- Marathon Sessions Section -->
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.25rem;">
         <h2 style="font-size:1.15rem;font-weight:800;" data-i18n="sessionsHeader">Jadwal 5 Sesi Maraton</h2>
-        <span style="font-size:0.75rem;font-weight:700;color:var(--text-muted);">Status Live dari Server 🌐</span>
+        <span style="font-size:0.75rem;font-weight:700;color:var(--text-muted);display:inline-flex;align-items:center;gap:0.4rem;">
+          <span class="live-dot"></span> Live Server D1
+        </span>
       </div>
 
       <div id="sessions-container" class="sessions-grid">
@@ -147,7 +207,7 @@
     </main>
 
     <!-- =====================================================================
-         VIEW 3: IN-GAME QUIZ LOOP (30 Questions, 7s Countdown)
+         VIEW 3: IN-GAME QUIZ LOOP (30 Questions, Dynamic Timer)
          ===================================================================== -->
     <main id="view-game" style="display: none;">
       <!-- In-Game HUD -->
@@ -162,17 +222,25 @@
 
         <div class="game-meta-row">
           <div class="hud-pill">
-            <span data-i18n="scoreHud">Skor</span>: <strong id="hud-score" style="color:var(--clay-primary-dark);margin-left:4px;">0</strong>
+            <svg class="ui-icon ui-icon-sm" viewBox="0 0 24 24" style="color:var(--primary);">
+              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+            </svg>
+            <span data-i18n="scoreHud">Skor</span>: <strong id="hud-score" style="color:var(--primary-dark);margin-left:4px;">0</strong>
           </div>
-          <div class="hud-pill">
-            <span id="hud-streak">🔥 0</span>
+          <div class="hud-pill" id="hud-streak-pill">
+            <svg class="ui-icon ui-icon-sm ui-icon-flame" viewBox="0 0 24 24" style="color:#F59E0B;fill:rgba(245,158,11,0.25);">
+              <path d="M8.5 14.5A2.5 2.5 0 0 0 11 17c1.38 0 2.5-1.12 2.5-2.5 0-.7-.3-1.3-.8-1.7l-.2-.2c-.5-.5-.8-1.2-.8-1.9 0-.4.1-.8.3-1.1C10.7 7.7 8 10 8 13c0 .5.2 1 .5 1.5z"/>
+              <path d="M12 2c1 3 4 5 4 9a6 6 0 0 1-12 0c0-3.5 2.5-6.5 4.5-8.5C9 3.5 10 3 12 2z"/>
+            </svg>
+            <span style="font-size:0.78rem;font-weight:700;color:var(--text-muted);" data-i18n="streakHud">Streak</span>:
+            <span id="hud-streak-count" style="font-weight:800;color:#D97706;margin-left:2px;">0</span>
           </div>
         </div>
 
-        <!-- Dynamic 7-Second Countdown Bar -->
+        <!-- Dynamic Difficulty Countdown Bar -->
         <div class="timer-container" aria-label="Question timer">
           <div id="timer-bar" class="timer-bar" style="width: 100%;"></div>
-          <div id="timer-text" class="timer-counter-text">7.0s</div>
+          <div id="timer-text" class="timer-counter-text">15.0s</div>
         </div>
       </div>
 
@@ -191,7 +259,15 @@
          VIEW 4: RESULT SUMMARY & D1 EDGE SYNC
          ===================================================================== -->
     <main id="view-result" class="clay-card result-card" style="display: none;">
-      <div class="trophy-clay-icon">🏆</div>
+      <div class="result-trophy-emblem">
+        <svg class="ui-icon-lg" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2">
+          <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/>
+          <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/>
+          <path d="M4 22h16"/>
+          <path d="M10 14.66V17c0 .55-.45 1-1 1H8c-.55 0-1 .45-1 1v1c0 .55.45 1 1 1h8c.55 0 1-.45 1-1v-1c0-.55-.45-1-1-1h-1c-.55 0-1-.45-1-1v-2.34"/>
+          <path d="M6 4h12v5a6 6 0 0 1-12 0V4z"/>
+        </svg>
+      </div>
       <h2 id="result-session-title" class="title-xl" data-i18n="resultHeader">Sesi Selesai!</h2>
       <p class="subtitle" data-i18n="resultSubtitle">Kerja luar biasa! Berikut performa kamu pada sesi ini:</p>
 
@@ -222,7 +298,11 @@
       </div>
 
       <button id="btn-back-lobby" class="clay-btn clay-btn-primary clay-btn-block">
-        <span data-i18n="btnBackToLobby">Kembali ke Beranda</span> 🏠
+        <svg class="ui-icon" viewBox="0 0 24 24">
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+          <polyline points="9 22 9 12 15 12 15 22"/>
+        </svg>
+        <span data-i18n="btnBackToLobby">Kembali ke Beranda</span>
       </button>
     </main>
 
@@ -233,13 +313,22 @@
        ======================================================================= -->
   <div id="anti-cheat-modal" class="modal-backdrop">
     <div class="clay-modal">
-      <div class="modal-icon-badge">⚠️</div>
+      <div class="modal-icon-badge">
+        <svg class="ui-icon-lg" viewBox="0 0 24 24" stroke="#FFFFFF" fill="none">
+          <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+          <line x1="12" y1="9" x2="12" y2="13"/>
+          <line x1="12" y1="17" x2="12.01" y2="17"/>
+        </svg>
+      </div>
       <h3 class="title-xl" style="font-size:1.35rem;margin-bottom:0.5rem;" data-i18n="antiCheatTitle">Peringatan Anti-Cheat!</h3>
       <p class="subtitle" style="margin-bottom:1.75rem;" data-i18n="antiCheatMsg">
         Kamu terdeteksi berpindah tab atau meninggalkan jendela browser. Tetaplah fokus pada kuis untuk menghindari diskualifikasi soal!
       </p>
       <button id="btn-resume-quiz" class="clay-btn clay-btn-coral clay-btn-block">
-        <span data-i18n="antiCheatActionBtn">Kembali ke Kuis</span> ⏱️
+        <span data-i18n="antiCheatActionBtn">Kembali ke Kuis</span>
+        <svg class="ui-icon" viewBox="0 0 24 24">
+          <polygon points="5 3 19 12 5 21 5 3"/>
+        </svg>
       </button>
     </div>
   </div>

@@ -87,7 +87,8 @@ class TriviaApp {
       hudProgress: document.getElementById("hud-progress"),
       hudDifficulty: document.getElementById("hud-difficulty"),
       hudScore: document.getElementById("hud-score"),
-      hudStreak: document.getElementById("hud-streak"),
+      hudStreakCount: document.getElementById("hud-streak-count"),
+      hudStreakPill: document.getElementById("hud-streak-pill"),
       timerBar: document.getElementById("timer-bar"),
       timerText: document.getElementById("timer-text"),
       questionText: document.getElementById("question-text"),
@@ -244,10 +245,21 @@ class TriviaApp {
 
   updateSoundButtonUI() {
     if (Sound.isMuted) {
-      this.dom.soundIcon.textContent = "🔇";
+      this.dom.soundIcon.innerHTML = `
+        <svg class="ui-icon" viewBox="0 0 24 24">
+          <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+          <line x1="23" y1="9" x2="17" y2="15"/>
+          <line x1="17" y1="9" x2="23" y2="15"/>
+        </svg>
+      `;
       this.dom.soundToggleBtn.title = this.t("soundOff");
     } else {
-      this.dom.soundIcon.textContent = "🔊";
+      this.dom.soundIcon.innerHTML = `
+        <svg class="ui-icon" viewBox="0 0 24 24">
+          <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+          <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/>
+        </svg>
+      `;
       this.dom.soundToggleBtn.title = this.t("soundOn");
     }
   }
@@ -422,11 +434,20 @@ class TriviaApp {
 
     let badgeHtml = "";
     if (isCompleted) {
-      badgeHtml = `<span class="session-badge-status status-completed">✓ ${this.t("sessionCompleted")}</span>`;
+      badgeHtml = `<span class="session-badge-status status-completed">
+        <svg class="ui-icon ui-icon-sm" viewBox="0 0 24 24" style="stroke-width:3;"><polyline points="20 6 9 17 4 12"/></svg>
+        ${this.t("sessionCompleted")}
+      </span>`;
     } else if (isServerOpen) {
-      badgeHtml = `<span class="session-badge-status status-ready">⚡ ${this.t("sessionReady")}</span>`;
+      badgeHtml = `<span class="session-badge-status status-ready">
+        <svg class="ui-icon ui-icon-sm" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        ${this.t("sessionReady")}
+      </span>`;
     } else {
-      badgeHtml = `<span class="session-badge-status status-locked">🔒 ${this.t("sessionLocked")}</span>`;
+      badgeHtml = `<span class="session-badge-status status-locked">
+        <svg class="ui-icon ui-icon-sm" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        ${this.t("sessionLocked")}
+      </span>`;
     }
 
     const dict = I18N[this.currentLang] || I18N.id;
@@ -441,7 +462,11 @@ class TriviaApp {
           <span class="session-metrics-val">${localData.score.toLocaleString()} pts</span>
         </div>
         <button class="clay-btn clay-btn-neutral clay-btn-block" onclick="app.reviewSession(${sessionNum})">
-          ${this.t("btnReviewSession")}
+          <svg class="ui-icon ui-icon-sm" viewBox="0 0 24 24">
+            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+            <circle cx="12" cy="12" r="3"/>
+          </svg>
+          <span>${this.t("btnReviewSession")}</span>
         </button>
       `;
     } else if (isServerOpen) {
@@ -451,16 +476,20 @@ class TriviaApp {
           <span class="session-metrics-val">15s – 2m / Soal</span>
         </div>
         <button class="clay-btn clay-btn-primary clay-btn-block" onclick="app.startSession(${sessionNum})">
-          ${this.t("btnPlaySession")} 🚀
+          <span>${this.t("btnPlaySession")}</span>
+          <svg class="ui-icon ui-icon-sm" viewBox="0 0 24 24">
+            <polygon points="5 3 19 12 5 21 5 3"/>
+          </svg>
         </button>
       `;
     } else {
       bottomHtml = `
         <div class="session-timer-box">
-          <span>Menunggu Panitia Membuka Sesi...</span>
+          <span>Menunggu Pembukaan Jadwal Panitia...</span>
         </div>
         <button class="clay-btn clay-btn-neutral clay-btn-block disabled" disabled>
-          🔒 ${this.t("sessionLocked")}
+          <svg class="ui-icon ui-icon-sm" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          <span>${this.t("sessionLocked")}</span>
         </button>
       `;
     }
@@ -545,7 +574,7 @@ class TriviaApp {
     this.dom.hudSessionName.textContent = dict.sessionTitles[this.activeSessionId - 1] || `Session ${this.activeSessionId}`;
     this.dom.hudProgress.textContent = `${this.t("questionProgress")} ${idx + 1} ${this.t("of")} ${this.activeQuestions.length}`;
     this.dom.hudScore.textContent = this.sessionScore.toLocaleString();
-    this.dom.hudStreak.textContent = `🔥 ${this.streak}`;
+    this.updateStreakUI();
 
     this.dom.hudDifficulty.className = `difficulty-tag ${q.difficulty}`;
     if (q.difficulty === "easy") {
@@ -704,6 +733,19 @@ class TriviaApp {
     }
   }
 
+  updateStreakUI() {
+    if (this.dom.hudStreakCount) {
+      this.dom.hudStreakCount.textContent = this.streak;
+    }
+    if (this.dom.hudStreakPill) {
+      if (this.streak >= 3) {
+        this.dom.hudStreakPill.classList.add("on-fire");
+      } else {
+        this.dom.hudStreakPill.classList.remove("on-fire");
+      }
+    }
+  }
+
   handleAnswerSelection(selectedBtn, selectedOpt, allOptions) {
     this.isOptionLocked = true;
     this.cancelQuestionTimer();
@@ -738,7 +780,7 @@ class TriviaApp {
     }
 
     this.dom.hudScore.textContent = this.sessionScore.toLocaleString();
-    this.dom.hudStreak.textContent = `🔥 ${this.streak}`;
+    this.updateStreakUI();
 
     setTimeout(() => {
       this.currentQuestionIdx++;
@@ -758,7 +800,7 @@ class TriviaApp {
       btn.classList.add("wrong");
     });
 
-    this.dom.hudStreak.textContent = `🔥 ${this.streak}`;
+    this.updateStreakUI();
 
     setTimeout(() => {
       this.currentQuestionIdx++;
@@ -852,7 +894,7 @@ class TriviaApp {
     this.dom.resultTime.textContent = `${data.totalDuration}s`;
 
     this.dom.syncStatusBox.className = "sync-status-box sync-success";
-    this.dom.syncStatusText.textContent = "✓ Sesi ini sudah tersimpan di database turnamen";
+    this.dom.syncStatusText.textContent = "Sesi ini sudah tersimpan di database turnamen";
 
     this.switchView("result");
   }
@@ -883,7 +925,7 @@ class TriviaApp {
 
       if (res.ok && data.status === "success") {
         this.dom.syncStatusBox.className = "sync-status-box sync-success";
-        this.dom.syncStatusText.textContent = "✓ Skor resmi berhasil dicatat di Cloudflare D1!";
+        this.dom.syncStatusText.textContent = "Skor resmi berhasil diverifikasi & dicatat di Cloudflare D1!";
       } else {
         this.dom.syncStatusBox.className = "sync-status-box sync-error";
         this.dom.syncStatusText.textContent = data.message || "Gagal mencatat skor resmi";

@@ -160,20 +160,25 @@ class AdminDashboard {
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.6rem;">
             <span style="font-weight:800;font-size:0.85rem;color:var(--text-muted);">SESI ${s.session_number}</span>
             <span class="session-badge-status ${isOpen ? "status-ready" : "status-locked"}">
-              ${isOpen ? "⚡ AKTIF / DIBUKA" : "🔒 TERKUNCI"}
+              ${isOpen 
+                ? `<svg class="ui-icon ui-icon-sm" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg> DIBUKA`
+                : `<svg class="ui-icon ui-icon-sm" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> TERKUNCI`
+              }
             </span>
           </div>
           <h3 style="font-size:1.05rem;font-weight:800;color:var(--text-main);margin-bottom:0.25rem;">${s.title}</h3>
-          <p style="font-size:0.75rem;color:var(--text-muted);">30 Soal • 7 Detik / Soal • Batas ~6.150 poin</p>
+          <p style="font-size:0.75rem;color:var(--text-muted);">30 Soal • Adaptif (15s / 60s / 120s) • Skor Maks ~6.150 poin</p>
         </div>
 
         <div>
           ${isOpen 
             ? `<button class="clay-btn clay-btn-coral clay-btn-block" onclick="adminApp.toggleSession(${s.session_number}, false)">
-                 🔒 Kunci Sesi Ini
+                 <svg class="ui-icon ui-icon-sm" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                 <span>Kunci Sesi Ini</span>
                </button>`
             : `<button class="clay-btn clay-btn-primary clay-btn-block" onclick="adminApp.toggleSession(${s.session_number}, true)">
-                 ⚡ Buka Sesi Ini Sekarang
+                 <svg class="ui-icon ui-icon-sm" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                 <span>Buka Sesi Sekarang</span>
                </button>`
           }
         </div>
@@ -263,14 +268,14 @@ class AdminDashboard {
     list.forEach((u, idx) => {
       const rank = idx + 1;
       let rankBadge = `<span class="rank-pill">${rank}</span>`;
-      if (rank === 1) rankBadge = `<span class="rank-pill rank-1">🥇</span>`;
-      else if (rank === 2) rankBadge = `<span class="rank-pill rank-2">🥈</span>`;
-      else if (rank === 3) rankBadge = `<span class="rank-pill rank-3">🥉</span>`;
+      if (rank === 1) rankBadge = `<span class="rank-pill rank-1">#1</span>`;
+      else if (rank === 2) rankBadge = `<span class="rank-pill rank-2">#2</span>`;
+      else if (rank === 3) rankBadge = `<span class="rank-pill rank-3">#3</span>`;
 
       const isCompletedAll = u.sessions_completed >= 5;
       const statusBadge = isCompletedAll 
-        ? `<span class="valid-tag">✓ SAH (5/5)</span>`
-        : `<span class="pending-tag">⏳ ${u.sessions_completed}/5 Sesi</span>`;
+        ? `<span class="valid-tag"><svg class="ui-icon ui-icon-sm" viewBox="0 0 24 24" style="stroke-width:3"><polyline points="20 6 9 17 4 12"/></svg> SAH (5/5)</span>`
+        : `<span class="pending-tag"><svg class="ui-icon ui-icon-sm" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> ${u.sessions_completed}/5 Sesi</span>`;
 
       const tr = document.createElement("tr");
       tr.innerHTML = `
@@ -282,7 +287,7 @@ class AdminDashboard {
         <td>
           <code style="background:#E2E8F0;padding:3px 7px;border-radius:6px;font-size:0.8rem;color:#4A5568;font-weight:700;">${u.telegram_id || '-'}</code>
         </td>
-        <td style="color:var(--clay-primary-dark);font-size:1rem;">
+        <td style="color:var(--primary-dark);font-size:1rem;font-weight:800;">
           ${(u.total_score || 0).toLocaleString()} pts
         </td>
         <td>
@@ -295,8 +300,11 @@ class AdminDashboard {
           ${statusBadge}
         </td>
         <td style="text-align:right;">
-          <button onclick="adminApp.deleteUser('${u.telegram_id || u.username}')" class="clay-icon-btn" style="width:30px;height:30px;font-size:0.75rem;" title="Reset Peserta">
-            🗑️
+          <button onclick="adminApp.deleteUser('${u.telegram_id || u.username}')" class="clay-icon-btn" style="width:34px;height:34px;color:var(--coral);" title="Reset Peserta">
+            <svg class="ui-icon ui-icon-sm" viewBox="0 0 24 24">
+              <polyline points="3 6 5 6 21 6"/>
+              <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+            </svg>
           </button>
         </td>
       `;

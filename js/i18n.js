@@ -11,7 +11,7 @@ const I18N = {
     prizeTag: "Hadiah Utama",
     prizeTitle: "Akun Google One AI Pro 5 TB",
     prizeDesc: "Akses 1 tahun penuh: Gemini Advanced, 5.000 GB cloud storage, Google Workspace premium.",
-    
+
     // Onboarding
     welcomeTitle: "Trivia Marathon Giveaway",
     welcomeSubtitle: "Buktikan ketangkasan dan pengetahuan teknologi kamu dalam 5 sesi kuis bertempo cepat!",
@@ -21,18 +21,18 @@ const I18N = {
     telegramLabel: "Username Telegram (@)",
     telegramPlaceholder: "@username_kamu",
     telegramHint: "Wajib diawali tanda '@' untuk verifikasi klaim hadiah.",
-    telegramError: "Username harus diawali tanda '@' dan minimal 3 karakter!",
+    telegramError: "Username harus diawali tanda '@' dan minimal 5 karakter!",
     telegramIdLabel: "ID Telegram Numerik (User ID)",
     telegramIdPlaceholder: "Contoh: 123456789",
-    telegramIdHint: "Cek ID kamu di bot Telegram @userinfobot atau @myidbot",
+    telegramIdHint: "Cek ID kamu di bot Telegram seperti Rose Bot",
     telegramIdError: "ID Telegram harus berupa angka unik (minimal 5 digit)!",
-    btnStartMarathon: "Masuk Arena Maraton 🚀",
+    btnStartMarathon: "Masuk Arena Maraton",
     rulesHeader: "Aturan Singkat:",
     rule1: "5 Sesi Terpisah @ 30 soal singkat (10 Mudah, 10 Sedang, 10 Sulit).",
     rule2: "Waktu adaptif: Mudah 15 detik, Sedang 1 menit (60 dtk), Sulit 2 menit (120 dtk). Makin cepat menjawab = bonus poin makin tinggi.",
     rule3: "Sesi hanya dapat dikerjakan 1 kali (Session Lock).",
     rule4: "Dilarang berpindah tab browser selama kuis berlangsung (Anti-Cheat aktif).",
-    
+
     // Lobby
     lobbyGreeting: "Selamat Datang,",
     totalScoreLabel: "Total Akumulasi Skor",
@@ -48,7 +48,7 @@ const I18N = {
     allSessionsDone: "Selamat! Kamu telah menyelesaikan seluruh 5 sesi maraton!",
     devModeActive: "Mode Pengembang Aktif: Jadwal Sesi Dibuka Manual",
     btnToggleDevMode: "Buka Semua Sesi (Demo)",
-    
+
     // Sessions Title & Description
     sessionTitles: [
       "Sesi 1: Cloud & Ekosistem Google",
@@ -74,12 +74,12 @@ const I18N = {
     difficultyEasy: "Mudah",
     difficultyMedium: "Sedang",
     difficultyHard: "Sulit",
-    
+
     // Anti-Cheat Modal
     antiCheatTitle: "Peringatan Anti-Cheat!",
     antiCheatMsg: "Kamu terdeteksi berpindah tab atau meninggalkan jendela browser. Tetaplah fokus pada kuis untuk menghindari diskualifikasi soal!",
     antiCheatActionBtn: "Kembali ke Kuis",
-    
+
     // Result View
     resultHeader: "Sesi Selesai!",
     resultSubtitle: "Kerja luar biasa! Berikut performa kamu pada sesi ini:",
@@ -92,12 +92,12 @@ const I18N = {
     syncSuccessStatus: "Skor berhasil diverifikasi & dicatat di Google Sheets!",
     syncOfflineStatus: "Skor tersimpan di browser (Mode Demo / URL GAS belum dikonfigurasi).",
     syncErrorStatus: "Gagal menyambung ke server. Skor tetap aman tersimpan di browser.",
-    
+
     // Audio Toggle
     soundOn: "Suara Aktif",
     soundOff: "Suara Mati"
   },
-  
+
   en: {
     // Header & Meta
     appName: "Google One AI Pro",
@@ -105,7 +105,7 @@ const I18N = {
     prizeTag: "Grand Prize",
     prizeTitle: "Google One AI Pro 5 TB Account",
     prizeDesc: "Full 1-year access: Gemini Advanced, 5,000 GB cloud storage, premium Google Workspace.",
-    
+
     // Onboarding
     welcomeTitle: "Trivia Marathon Giveaway",
     welcomeSubtitle: "Test your tech speed and knowledge across 5 high-octane quiz sessions!",
@@ -120,13 +120,13 @@ const I18N = {
     telegramIdPlaceholder: "e.g. 123456789",
     telegramIdHint: "Check your ID using Telegram bots like @userinfobot or @myidbot",
     telegramIdError: "Telegram ID must be numeric (min 5 digits)!",
-    btnStartMarathon: "Enter Marathon Arena 🚀",
+    btnStartMarathon: "Enter Marathon Arena",
     rulesHeader: "Quick Rules:",
     rule1: "5 Discrete Sessions @ 30 rapid questions (10 Easy, 10 Medium, 10 Hard).",
     rule2: "Adaptive timer: Easy 15s, Medium 1 min (60s), Hard 2 min (120s). Faster answers yield higher bonus points.",
     rule3: "Each session can only be attempted once (Session Lock).",
     rule4: "Switching browser tabs during the quiz is strictly penalized (Anti-Cheat active).",
-    
+
     // Lobby
     lobbyGreeting: "Welcome,",
     totalScoreLabel: "Accumulated Marathon Score",
@@ -142,7 +142,7 @@ const I18N = {
     allSessionsDone: "Congratulations! You have completed all 5 marathon sessions!",
     devModeActive: "Dev Mode Active: All Sessions Manually Unlocked",
     btnToggleDevMode: "Unlock All Sessions (Demo)",
-    
+
     // Sessions Title & Description
     sessionTitles: [
       "Session 1: Cloud & Google Ecosystem",
@@ -168,12 +168,12 @@ const I18N = {
     difficultyEasy: "Easy",
     difficultyMedium: "Medium",
     difficultyHard: "Hard",
-    
+
     // Anti-Cheat Modal
     antiCheatTitle: "Anti-Cheat Warning!",
     antiCheatMsg: "You were detected switching tabs or unfocusing the browser window. Stay focused on the quiz to avoid question disqualification!",
     antiCheatActionBtn: "Return to Quiz",
-    
+
     // Result View
     resultHeader: "Session Completed!",
     resultSubtitle: "Outstanding job! Here is your performance breakdown:",
@@ -186,7 +186,7 @@ const I18N = {
     syncSuccessStatus: "Score verified & recorded in Google Sheets!",
     syncOfflineStatus: "Score stored locally (Demo Mode / GAS URL not yet set).",
     syncErrorStatus: "Failed to connect to backend. Score safely preserved locally.",
-    
+
     // Audio Toggle
     soundOn: "Sound On",
     soundOff: "Sound Off"
